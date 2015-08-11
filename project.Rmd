@@ -1,21 +1,14 @@
 ---
 title: "Investigation of Central Limit Theorem using Exponential Distribution"
 author: "Frank Jung"
-date: "11 August 2015"
 output: 
+  pdf_document: 
+    fig_crop: no
+    keep_tex: yes
+    latex_engine: xelatex
   html_document: 
-    keep_md: yes
     toc: yes
 ---
-
-## Synopsis
-
-This project will investigate the [exponential distribution](#exponential-distribution) in R and compare it
-with the [Central Limit Theorem](#central-limit-theorem). The project will:
-
-- show that the [sample mean converges to the theoretical mean](#sample-mean-versus-theoretical-mean) of the distribution
-- compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
-- show that the [distribution is approximately normal](#distribution-is-approximately-normal)
 
 ```{r setoptions, echo=FALSE, message=FALSE, warning=FALSE}
 # set our runtime environment and global defaults.
@@ -23,29 +16,69 @@ require(knitr, quietly = TRUE)
 require(utils, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
 require(scales, quietly = TRUE)
-opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", 
-               fig.width = 10, fig.height = 7, fig.path = "figure/")
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", fig.width = 6, fig.height = 4.5, fig.path = "figure/", fig.pos="H")
+lambda <- 0.2
+observ <- 40
+samples <- 1000
 ```
+
+## Synopsis
+
+This project will investigate the [exponential 
+distribution](https://en.wikipedia.org/wiki/Exponential_distribution) and
+compare it with the [Central Limit 
+Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem). It will:
+
+- show that the [sample mean converges to the theoretical mean](#sample-mean-versus-theoretical-mean) of the distribution
+- compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
+- show that the [distribution is approximately normal](#distribution-is-approximately-normal)
 
 ## Simulation
 
+We will perform 1000 simulatations of ```r observ``` observations of the
+exponential distribution with $\lambda$ of ```r lambda```.
+
 ## Sample Mean versus Theoretical Mean
+
+Using ```r observ``` observations of the exponential distribution we will sample
+it ```r samples``` times, taking the mean of each sample. The mean of these
+observations should approach the theoretical mean. The exponential distribution
+has a theoretical mean of $1/\lambda$ = ```r 1/lambda```
+```{r samplemean, echo=TRUE, message=FALSE, warning=FALSE}
+set.seed(040)
+means <- sapply(1:samples, function(x) mean(sample(rexp(observ, lambda), replace = TRUE)))
+mean(means)
+1/lambda
+```
 
 ## Sample Variance versus Theoretical Variance
 
+As above, take ```r observ``` observations from the exponential distribution,
+this time measuring the variance. Sample these variances ```r samples``` times
+and compare to the theoretical variance. The exponential distribution has a
+theoretical variance of $1/\lambda^2$ = ```r 1/0.2^2```.
+```{r samplevar, echo=TRUE, message=FALSE, warning=FALSE}
+set.seed(040)
+vars <- sapply(1:samples, function(x) var(sample(rexp(observ, lambda), replace = TRUE)))
+mean(vars)
+1/lambda^2
+```
+
 ## Distribution is Approximately Normal
 
-## Appendices
-
-### Central Limit Theorem
-
-### Exponential Distribution
-
-### Session Information
-
-This document was produced in RStudio. The session information detailing
-packages used is:
-
-```{r sessioninformation} 
-sessionInfo()
+Consider the normalised version of the independent identically distribution 
+(iid) of exponential averages: $\frac {\bar X_n - \mu} {\sigma / n}$. The 
+Central Limit Theorem states that this distribution tends to that of a standard 
+normal as the sample size increases.
+```{r uniform, echo=TRUE, message=TRUE, warning=FALSE}
+set.seed(040)
+# compare the distribution of 1000 random uniforms
+# and distribution of 1000 averages of 40 random uniforms
+means = NULL
+mu = 1/lambda
+se = sqrt(1/lambda^2)/samples
+means <- sapply(1:samples, function(x) (mean(sample(rexp(observ, lambda), replace = TRUE)) - mu)/se)
+hist(means)
+# plot(rnorm(100, 0, 1), type = "l", lwd = 2)
 ```
+

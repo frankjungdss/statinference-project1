@@ -1,0 +1,55 @@
+---
+title: "notes"
+author: "Frank Jung"
+date: "11 August 2015"
+output: html_document
+---
+
+```{r setoptions, echo=TRUE, message=FALSE, warning=FALSE}
+# set our runtime environment and global defaults.
+require(knitr, quietly = TRUE)
+require(utils, quietly = TRUE)
+require(ggplot2, quietly = TRUE)
+require(scales, quietly = TRUE)
+opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", fig.width = 10, fig.height = 7, fig.path = "figure/")
+```
+
+
+Cumulative means of 1000 exponential distributions with $\lambda$ of 0.2.
+
+```{r cummeans, echo=TRUE, message=FALSE, warning=FALSE}
+set.seed(040)
+n <- 1000
+lambda <- 0.2
+means <- cumsum(rexp(n, lambda))/(1 :n)
+plot(1:n, means, type = "l", lwd = 2, frame = FALSE, ylab = "Cumulative Means", xlab = "Sample Size")
+abline(h = 1/lambda)
+```
+
+
+## Simulation of mean of $n$ dice
+
+```{r, echo = FALSE, fig.width=9, fig.height = 3}
+par(mfrow = c(1, 3))
+for (n in c(1, 2, 6)){
+  temp <- matrix(sample(1 : 6, n * 10000, replace = TRUE), ncol = n)
+  temp <- apply(temp, 1, mean)
+  temp <- (temp - 3.5) / (1.71 / sqrt(n)) 
+  dty <- density(temp)
+  plot(dty$x, dty$y, xlab = "", ylab = "density", type = "n", xlim = c(-3, 3), ylim = c(0, .5))
+  title(paste("sample mean of", n, "obs"))
+  lines(seq(-3, 3, length = 100), dnorm(seq(-3, 3, length = 100)), col = grey(.8), lwd = 3)
+  lines(dty$x, dty$y, lwd = 2)
+}
+```
+
+## Appendices
+
+### Session Information
+
+This document was produced in RStudio. The session information detailing
+packages used is:
+
+```{r sessioninformation} 
+sessionInfo()
+```
