@@ -1,14 +1,14 @@
 ---
-title: "Investigation of Central Limit Theorem using Exponential Distribution"
+title: "Investigation of Central Limit Theorem with Exponential Distribution"
 author: "Frank Jung"
 output:
-  html_document:
-    css: custom.css
-    fig_height: 4
-    fig_width: 6
   pdf_document:
     fig_height: 4
+    fig_width: 5
+    keep_tex: yes
     latex_engine: xelatex
+  html_document:
+    css: custom.css
 ---
 
 ```{r setoptions, echo=FALSE, message=FALSE, warning=FALSE}
@@ -29,9 +29,9 @@ options(rstudio.markdownToHTML =
 ## Synopsis
 
 This project will investigate the [exponential 
-distribution](http://en.wikipedia.org/wiki/Exponential_distribution). Applying
+distribution](https://en.wikipedia.org/wiki/Exponential_distribution). Applying
 the [Central Limit
-Theorem](http://en.wikipedia.org/wiki/Central_limit_theorem), we will:
+Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem), we will:
 
 - show that the [sample mean converges to the theoretical mean](#sample-mean-versus-theoretical-mean) of the distribution
 - compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
@@ -60,7 +60,7 @@ exponential distribution with $\lambda$ of ```r lambda```.
 
 Using ```r observ``` observations of the exponential distribution we will sample
 it ```r samples``` times, taking the mean for each sample. The mean of these 
-samples should approach the theoretical mean.
+samples should approach the theoretical mean, ($1/\lambda$).
 
 ```{r samplemean, echo=FALSE, message=FALSE, warning=FALSE}
 simmean <- mean(simdf$means)
@@ -79,7 +79,7 @@ ggplot(simdf, aes(x=means)) +
 
 As above, take ```r observ``` observations from the exponential distribution,
 this time measuring the variance. Sample these variances ```r samples``` times
-and compare to the theoretical variance.
+and compare to the theoretical variance,  ($1/\lambda^2$).
 
 ```{r samplevar, echo=FALSE, message=FALSE, warning=FALSE}
 simvar <- mean(simdf$vars)
