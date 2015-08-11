@@ -4,6 +4,8 @@ author: "Frank Jung"
 output:
   html_document:
     css: custom.css
+    fig_height: 4
+    fig_width: 6
   pdf_document:
     fig_height: 4
     latex_engine: xelatex
@@ -15,7 +17,7 @@ require(knitr, quietly = TRUE)
 require(utils, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
 require(scales, quietly = TRUE)
-knitr::opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", fig.path = "figure/", fig.width = 6, fig.height = 4)
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", fig.path = "figure/")
 options(rstudio.markdownToHTML =
     function(inputFile, outputFile) {
         require(markdown)
@@ -23,6 +25,19 @@ options(rstudio.markdownToHTML =
     }
 )
 ```
+
+## Synopsis
+
+This project will investigate the [exponential 
+distribution](http://en.wikipedia.org/wiki/Exponential_distribution). Applying
+the [Central Limit
+Theorem](http://en.wikipedia.org/wiki/Central_limit_theorem), we will:
+
+- show that the [sample mean converges to the theoretical mean](#sample-mean-versus-theoretical-mean) of the distribution
+- compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
+- show that the [distribution is approximately normal](#distribution-is-approximately-normal)
+
+## Simulation
 
 ```{r simulation, echo=TRUE, message=FALSE, warning=FALSE}
 set.seed(040)
@@ -34,24 +49,11 @@ simdata <- matrix(sapply(1:samples, function(x) rexp(observ, lambda)), samples, 
 # means and variances of each sample
 simmeans <- apply(simdata, 1, function (x) mean(x[]))
 simvars <- apply(simdata, 1, function (x) var(x[]))
-# put into data frame for easy reference
+# put into data frame use with plots
 simdf <- data.frame(means = simmeans, vars = simvars)
 ```
 
-## Synopsis
-
-This project will investigate the [exponential 
-distribution](https://en.wikipedia.org/wiki/Exponential_distribution). Applying
-the [Central Limit
-Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem), we will:
-
-- show that the [sample mean converges to the theoretical mean](#sample-mean-versus-theoretical-mean) of the distribution
-- compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
-- show that the [distribution is approximately normal](#distribution-is-approximately-normal)
-
-## Simulation
-
-We will perform 1000 simulatations of ```r observ``` observations of the
+We will perform 1000 simulatations of ```r observ``` observations from the 
 exponential distribution with $\lambda$ of ```r lambda```.
 
 ## Sample Mean versus Theoretical Mean
