@@ -2,12 +2,11 @@
 title: "Investigation of Central Limit Theorem using Exponential Distribution"
 author: "Frank Jung"
 output:
-  pdf_document:
-    fig_crop: no
-    keep_tex: yes
-    latex_engine: xelatex
   html_document:
-    toc: yes
+    css: custom.css
+  pdf_document:
+    fig_height: 4
+    latex_engine: xelatex
 ---
 
 ```{r setoptions, echo=FALSE, message=FALSE, warning=FALSE}
@@ -16,7 +15,16 @@ require(knitr, quietly = TRUE)
 require(utils, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
 require(scales, quietly = TRUE)
-knitr::opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", fig.width = 6, fig.height = 4.5, fig.path = "figure/", fig.pos="H")
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", fig.path = "figure/", fig.width = 6, fig.height = 4)
+options(rstudio.markdownToHTML =
+    function(inputFile, outputFile) {
+        require(markdown)
+        markdownToHTML(inputFile, outputFile, stylesheet="custom.css")
+    }
+)
+```
+
+```{r simulation, echo=TRUE, message=FALSE, warning=FALSE}
 set.seed(040)
 lambda <- 0.2
 observ <- 40
@@ -33,9 +41,9 @@ simdf <- data.frame(means = simmeans, vars = simvars)
 ## Synopsis
 
 This project will investigate the [exponential 
-distribution](https://en.wikipedia.org/wiki/Exponential_distribution) and 
-compare it with the [Central Limit 
-Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem). It will:
+distribution](https://en.wikipedia.org/wiki/Exponential_distribution). Applying
+the [Central Limit
+Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem), we will:
 
 - show that the [sample mean converges to the theoretical mean](#sample-mean-versus-theoretical-mean) of the distribution
 - compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
@@ -49,32 +57,40 @@ exponential distribution with $\lambda$ of ```r lambda```.
 ## Sample Mean versus Theoretical Mean
 
 Using ```r observ``` observations of the exponential distribution we will sample
-it ```r samples``` times, taking the mean of each sample. The mean of these
-observations should approach the theoretical mean. The exponential distribution
-has a theoretical mean of $1/\lambda$ = ```r 1/lambda```.
-```{r samplemean, echo=TRUE, message=FALSE, warning=FALSE}
-simmean <- mean(simdf$means)
-actmean <- 1/lambda
+it ```r samples``` times, taking the mean for each sample. The mean of these 
+samples should approach the theoretical mean.
 
+```{r samplemean, echo=FALSE, message=FALSE, warning=FALSE}
+simmean <- mean(simdf$means)
 ggplot(simdf, aes(x=means)) +
     geom_histogram(colour = "black", fill = "purple", alpha = 0.3) +
-    geom_vline(xintercept = simmean, colour = "red") +
-    geom_vline(xintercept = actmean, colour = "black") +
+    geom_vline(xintercept = simmean, colour = "red", linetype = "longdash") +
+    annotate("text", label = paste("sample mean", round(simmean, 2)), x = 7, y = 80, colour = "red") +
     labs(x = "sample means", y = "frequency") +
-    ggtitle("Histogram of Sample Means from Exponential Distribution")
+    ggtitle("Histogram of sample means from exponential distribution")
 ```
+
+* The exponential distribution has a theoretical mean of $1/\lambda$ = ```r 1/lambda```.
+* The sample mean after ```r samples``` draws is ```r round(mean(simdf$means), 2)```.
 
 ## Sample Variance versus Theoretical Variance
 
 As above, take ```r observ``` observations from the exponential distribution,
 this time measuring the variance. Sample these variances ```r samples``` times
-and compare to the theoretical variance. The exponential distribution has a
-theoretical variance of $1/\lambda^2$ = ```r 1/lambda^2```.
-```{r samplevar, echo=TRUE, message=FALSE, warning=FALSE}
-# simvars <- apply(simdata, 1, function (x) var(x[]))
-mean(simdf$vars)
-1/lambda^2
+and compare to the theoretical variance.
+
+```{r samplevar, echo=FALSE, message=FALSE, warning=FALSE}
+simvar <- mean(simdf$vars)
+ggplot(simdf, aes(x=vars)) +
+    geom_histogram(colour = "black", fill = "purple", alpha = 0.3) +
+    geom_vline(xintercept = simvar, colour = "red", linetype = "longdash") +
+    annotate("text", label = paste("sample variance", round(simvar, 2)), x = 55, y = 100, colour = "red") +
+    labs(x = "sample variances", y = "frequency") +
+    ggtitle("Histogram of sample variances from exponential distribution")
 ```
+
+* The exponential distribution has a theoretical variance of $1/\lambda^2$ = ```r 1/lambda^2```.
+* The sample variance after ```r samples``` draws is ```r round(mean(simdf$vars), 2)```.
 
 ## Distribution is Approximately Normal
 
@@ -93,4 +109,3 @@ means <- sapply(1:samples, function(x) (mean(sample(rexp(observ, lambda), replac
 hist(means)
 # plot(rnorm(100, 0, 1), type = "l", lwd = 2)
 ```
-
