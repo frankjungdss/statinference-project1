@@ -25,7 +25,7 @@ samples <- 1000
 ## Synopsis
 
 This project will investigate the [exponential 
-distribution](https://en.wikipedia.org/wiki/Exponential_distribution) and
+distribution](https://en.wikipedia.org/wiki/Exponential_distribution) and 
 compare it with the [Central Limit 
 Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem). It will:
 
@@ -43,7 +43,7 @@ exponential distribution with $\lambda$ of ```r lambda```.
 Using ```r observ``` observations of the exponential distribution we will sample
 it ```r samples``` times, taking the mean of each sample. The mean of these
 observations should approach the theoretical mean. The exponential distribution
-has a theoretical mean of $1/\lambda$ = ```r 1/lambda```
+has a theoretical mean of $1/\lambda$ = ```r 1/lambda```.
 ```{r samplemean, echo=TRUE, message=FALSE, warning=FALSE}
 set.seed(040)
 means <- sapply(1:samples, function(x) mean(sample(rexp(observ, lambda), replace = TRUE)))
@@ -56,7 +56,7 @@ mean(means)
 As above, take ```r observ``` observations from the exponential distribution,
 this time measuring the variance. Sample these variances ```r samples``` times
 and compare to the theoretical variance. The exponential distribution has a
-theoretical variance of $1/\lambda^2$ = ```r 1/0.2^2```.
+theoretical variance of $1/\lambda^2$ = ```r 1/lambda^2```.
 ```{r samplevar, echo=TRUE, message=FALSE, warning=FALSE}
 set.seed(040)
 vars <- sapply(1:samples, function(x) var(sample(rexp(observ, lambda), replace = TRUE)))
