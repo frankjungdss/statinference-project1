@@ -1,25 +1,51 @@
 ---
-title: "Simulation of Exponential Distribution"
+title: "Investigation of Central Limit Theorem using Exponential Distribution"
 author: "Frank Jung"
-date: "10 August 2015"
+date: "11 August 2015"
 output: 
   html_document: 
     keep_md: yes
     toc: yes
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Synopsis
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+This project will investigate the [exponential distribution](#exponential-distribution) in R and compare it
+with the [Central Limit Theorem](#central-limit-theorem). The project will:
 
-```{r}
-summary(cars)
+- show that the [sample mean converges to the theoretical mean](#sample-mean-versus-theoretical-mean) of the distribution
+- compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
+- show that the [distribution is approximately normal](#distribution-is-approximately-normal)
+
+```{r setoptions, echo=FALSE, message=FALSE, warning=FALSE}
+# set our runtime environment and global defaults.
+require(knitr, quietly = TRUE)
+require(utils, quietly = TRUE)
+require(ggplot2, quietly = TRUE)
+require(scales, quietly = TRUE)
+opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", 
+               fig.width = 10, fig.height = 7, fig.path = "figure/")
 ```
 
-You can also embed plots, for example:
+## Simulation
 
-```{r, echo=FALSE}
-plot(cars)
+## Sample Mean versus Theoretical Mean
+
+## Sample Variance versus Theoretical Variance
+
+## Distribution is Approximately Normal
+
+## Appendices
+
+### Central Limit Theorem
+
+### Exponential Distribution
+
+### Session Information
+
+This document was produced in RStudio. The session information detailing
+packages used is:
+
+```{r sessioninformation} 
+sessionInfo()
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
