@@ -1,4 +1,4 @@
-\documentclass[legalpaper,11pt]{article}
+\documentclass[legalpaper]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -76,7 +76,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
-\setcounter{secnumdepth}{0}
+\setcounter{secnumdepth}{5}
 
 %%% Use protect on footnotes to avoid problems with footnotes in titles
 \let\rmarkdownfootnote\footnote%
@@ -109,7 +109,12 @@
 \maketitle
 
 
-\subsection{Synopsis}\label{synopsis}
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\section{Synopsis}\label{synopsis}
 
 This short project will study the
 \href{https://en.wikipedia.org/wiki/Central_limit_theorem}{Central Limit
@@ -131,7 +136,7 @@ distribution}. It will:
   approximately normal}
 \end{itemize}
 
-\subsection{Simulation}\label{simulation}
+\section{Simulation}\label{simulation}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -159,13 +164,14 @@ Finally, we will normalise the results for
 \hyperref[distribution-is-approximately-normal]{later comparision} to
 the standard normal.
 
-\hyperdef{}{sample-mean-versus-theoretical-mean}{\subsection{Sample Mean
+\hyperdef{}{sample-mean-versus-theoretical-mean}{\section{Sample Mean
 versus Theoretical Mean}\label{sample-mean-versus-theoretical-mean}}
 
 Using \texttt{40} observations of the exponential distribution we will
 sample it \texttt{1000} times, taking the mean for each sample. The mean
 of these samples should approach the theoretical mean, (\(1/\lambda\)).
-\includegraphics{figure/samplemean-1.pdf}
+
+\begin{center}\includegraphics{figure/samplemean-1} \end{center}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -176,13 +182,15 @@ of these samples should approach the theoretical mean, (\(1/\lambda\)).
   The sample mean after \texttt{1000} draws is \texttt{4.99}.
 \end{itemize}
 
-\subsection{Sample Variance versus Theoretical
+\section{Sample Variance versus Theoretical
 Variance}\label{sample-variance-versus-theoretical-variance}
 
 As before, take \texttt{40} observations from the exponential
 distribution, but this time measure the sample variance. Sample these
 variances \texttt{1000} times and compare to the theoretical variance,
-(\(1/\lambda^2\)). \includegraphics{figure/samplevar-1.pdf}
+(\(1/\lambda^2\)).
+
+\begin{center}\includegraphics{figure/samplevar-1} \end{center}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -193,16 +201,16 @@ variances \texttt{1000} times and compare to the theoretical variance,
   The sample variance after \texttt{1000} draws is \texttt{24.92}.
 \end{itemize}
 
-\hyperdef{}{distribution-is-approximately-normal}{\subsection{Distribution
+\hyperdef{}{distribution-is-approximately-normal}{\section{Distribution
 is Approximately Normal}\label{distribution-is-approximately-normal}}
 
 If we consider the normalised version,
 \(\frac {\bar X_n - \mu} {\sigma / n}\), of our sample averages, then
 the \href{https://en.wikipedia.org/wiki/Central_limit_theorem}{Central
-Limit Theorem} states that this distribution of these averages tends to
-that of a standard normal as the sample size increases.
+Limit Theorem} states that this distribution of averages tends to that
+of a standard normal as the sample size increases.
 
-\includegraphics[origin=c]{figure/samplenormals-1.pdf}
+\begin{center}\includegraphics{figure/samplenormals-1} \end{center}
 
 To help evaluate how close this is to our own simulation, we have
 overlayed the normalised sample averages with the standard normal
