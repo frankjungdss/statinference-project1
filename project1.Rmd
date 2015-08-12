@@ -51,7 +51,9 @@ se = sqrt(1/lambda^2)/sqrt(observ)
 simnormals <- apply(simdata, 1, function (x) (mean(x[]) - mu)/se)
 # put into data frame use with plots
 simdf <- data.frame(means = simmeans, vars = simvars, normals = simnormals)
-# use TeX \documentclass[legalpaper,11pt]{article}
+# TeX document manual adjustments:
+# \documentclass[legalpaper,11pt]{article}
+# \includegraphics[origin=c]{figure/samplenormals-1.pdf}
 ```
 We will perform ```r samples``` simulatations of ```r observ``` observations 
 from the exponential distribution with $\lambda$ of ```r lambda```. For each of
