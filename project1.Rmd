@@ -107,6 +107,7 @@ increases.
 ```{r samplenormals, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = simdf, aes(normals)) +
     geom_histogram(aes(y = ..density..), colour = "black", fill = "purple", alpha = 0.3) +
+    geom_line(aes(y = ..density..), stat = "density", size = 1) +
     stat_function(fun = dnorm, colour = "red", size = 1, aes(x = c(-3, 3))) +
     labs(x = "normalised sample averages") +
     annotate("text", label = "reference: standard normal", x = 2.5, y = 0.35, colour = "red") +
