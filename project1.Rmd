@@ -73,7 +73,7 @@ ggplot(simdf, aes(x=means)) +
     geom_vline(xintercept = mean(simdf$means), colour = "red", linetype = "longdash") +
     annotate("text", label = paste("sample mean", round(mean(simdf$means), 2)), x = 7, y = 80, colour = "red") +
     labs(x = "sample means", y = "frequency") +
-    ggtitle("Histogram of sample means from exponential distribution")
+    ggtitle("Histogram of Sample Means from Exponential Distribution")
 ```
 
 * The exponential distribution has a theoretical mean of $1/\lambda$ = ```r 1/lambda```.
@@ -91,7 +91,7 @@ ggplot(simdf, aes(x=vars)) +
     geom_vline(xintercept = simvar, colour = "red", linetype = "longdash") +
     annotate("text", label = paste("sample variance", round(simvar, 2)), x = 55, y = 100, colour = "red") +
     labs(x = "sample variances", y = "frequency") +
-    ggtitle("Histogram of sample variances from exponential distribution")
+    ggtitle("Histogram of Sample Variances from Exponential Distribution")
 ```
 
 * The exponential distribution has a theoretical variance of $1/\lambda^2$ = ```r 1/lambda^2```.
@@ -111,7 +111,7 @@ ggplot(data = simdf, aes(normals)) +
     stat_function(fun = dnorm, colour = "red", size = 1, aes(x = c(-3, 3))) +
     labs(x = "normalised sample averages") +
     annotate("text", label = "reference: standard normal", x = 2.5, y = 0.35, colour = "red") +
-    ggtitle("Density Histogram of normalised sample averages")
+    ggtitle("Density Histogram of Normalised Sample Averages")
 ```
 
 To help evaluate how close this is to our own simulation, we have overlayed the
