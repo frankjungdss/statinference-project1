@@ -2,7 +2,10 @@
 title: "notes"
 author: "Frank Jung"
 date: "11 August 2015"
-output: html_document
+output: 
+  pdf_document: 
+    fig_crop: no
+    latex_engine: xelatex
 ---
 
 ```{r setoptions, echo=TRUE, message=FALSE, warning=FALSE}
@@ -11,9 +14,8 @@ require(knitr, quietly = TRUE)
 require(utils, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
 require(scales, quietly = TRUE)
-opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", fig.width = 10, fig.height = 7, fig.path = "figure/")
+opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", fig.path = "figure/")
 ```
-
 
 Cumulative means of 1000 exponential distributions with $\lambda$ of 0.2.
 
@@ -57,9 +59,18 @@ set.seed(040)
 lambda <- 0.2
 observ <- 40
 samples <- 1000
-sims <- matrix(sample(rexp(observ, lambda), size = samples, replace = TRUE), nrow = samples, ncol = observ, byrow = TRUE)
-simmeans <- apply(sims, 1, function (x) mean(x[]))
-mean(simmeans)
+# simulated data 1000 sample rows by 40 observation columns
+simdata <- matrix(sapply(1:samples, function(x) rexp(observ, lambda)), samples, observ)
+# means and variances of each sample
+simmeans <- apply(simdata, 1, function (x) mean(x[]))
+simvars <- apply(simdata, 1, function (x) var(x[]))
+mu = 1/lambda
+se = sqrt(1/lambda^2)/sqrt(observ)
+simnormals <- apply(simdata, 1, function (x) (mean(x[]) - mu)/se)
+# put into data frame use with plots
+simdf <- data.frame(means = simmeans, vars = simvars, normals = simnormals)
+
+hist(simdf$normals)
 
 # plot mean
 ggplot(data = dfSampleMeanUniform, aes(sampleMean)) + geom_histogram(aes(y = ..density..), 

@@ -1,10 +1,9 @@
 ---
-title: "Investigation of Central Limit Theorem with Exponential Distribution"
+title: "A study of Central Limit Theorem with Exponential Distribution"
 author: "Frank Jung"
 output:
   pdf_document:
-    fig_height: 4
-    fig_width: 5
+    fig_crop: no
     keep_tex: yes
     latex_engine: xelatex
   html_document:
@@ -14,9 +13,7 @@ output:
 ```{r setoptions, echo=FALSE, message=FALSE, warning=FALSE}
 # set our runtime environment and global defaults.
 require(knitr, quietly = TRUE)
-require(utils, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
-require(scales, quietly = TRUE)
 knitr::opts_chunk$set(echo = FALSE, cache = TRUE, cache.path = "cache/", fig.path = "figure/")
 options(rstudio.markdownToHTML =
     function(inputFile, outputFile) {
@@ -28,10 +25,10 @@ options(rstudio.markdownToHTML =
 
 ## Synopsis
 
-This project will investigate the [exponential 
-distribution](https://en.wikipedia.org/wiki/Exponential_distribution). Applying
-the [Central Limit
-Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem), we will:
+This short project will study the [Central Limit
+Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem) using simulated 
+calls of the [exponential 
+distribution](https://en.wikipedia.org/wiki/Exponential_distribution). It will:
 
 - show that the [sample mean converges to the theoretical mean](#sample-mean-versus-theoretical-mean) of the distribution
 - compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
@@ -49,25 +46,29 @@ simdata <- matrix(sapply(1:samples, function(x) rexp(observ, lambda)), samples, 
 # means and variances of each sample
 simmeans <- apply(simdata, 1, function (x) mean(x[]))
 simvars <- apply(simdata, 1, function (x) var(x[]))
+mu = 1/lambda
+se = sqrt(1/lambda^2)/sqrt(observ)
+simnormals <- apply(simdata, 1, function (x) (mean(x[]) - mu)/se)
 # put into data frame use with plots
-simdf <- data.frame(means = simmeans, vars = simvars)
+simdf <- data.frame(means = simmeans, vars = simvars, normals = simnormals)
+# use TeX \documentclass[legalpaper,11pt]{article}
 ```
-
-We will perform 1000 simulatations of ```r observ``` observations from the 
-exponential distribution with $\lambda$ of ```r lambda```.
+We will perform ```r samples``` simulatations of ```r observ``` observations 
+from the exponential distribution with $\lambda$ of ```r lambda```. For each of
+the simulations we will calculate the samples means, variances. Finally, we will
+normalise the results for [later
+comparision](#distribution-is-approximately-normal) to the standard normal.
 
 ## Sample Mean versus Theoretical Mean
 
 Using ```r observ``` observations of the exponential distribution we will sample
 it ```r samples``` times, taking the mean for each sample. The mean of these 
 samples should approach the theoretical mean, ($1/\lambda$).
-
 ```{r samplemean, echo=FALSE, message=FALSE, warning=FALSE}
-simmean <- mean(simdf$means)
 ggplot(simdf, aes(x=means)) +
     geom_histogram(colour = "black", fill = "purple", alpha = 0.3) +
-    geom_vline(xintercept = simmean, colour = "red", linetype = "longdash") +
-    annotate("text", label = paste("sample mean", round(simmean, 2)), x = 7, y = 80, colour = "red") +
+    geom_vline(xintercept = mean(simdf$means), colour = "red", linetype = "longdash") +
+    annotate("text", label = paste("sample mean", round(mean(simdf$means), 2)), x = 7, y = 80, colour = "red") +
     labs(x = "sample means", y = "frequency") +
     ggtitle("Histogram of sample means from exponential distribution")
 ```
@@ -77,10 +78,9 @@ ggplot(simdf, aes(x=means)) +
 
 ## Sample Variance versus Theoretical Variance
 
-As above, take ```r observ``` observations from the exponential distribution,
-this time measuring the variance. Sample these variances ```r samples``` times
-and compare to the theoretical variance,  ($1/\lambda^2$).
-
+As before, take ```r observ``` observations from the exponential distribution, 
+but this time measure the sample variance. Sample these variances ```r samples```
+times and compare to the theoretical variance, ($1/\lambda^2$).
 ```{r samplevar, echo=FALSE, message=FALSE, warning=FALSE}
 simvar <- mean(simdf$vars)
 ggplot(simdf, aes(x=vars)) +
@@ -96,18 +96,19 @@ ggplot(simdf, aes(x=vars)) +
 
 ## Distribution is Approximately Normal
 
-Consider the normalised version of the independent identically distribution 
-(iid) of exponential averages: $\frac {\bar X_n - \mu} {\sigma / n}$. The 
-Central Limit Theorem states that this distribution tends to that of a standard 
-normal as the sample size increases.
-```{r uniform, echo=TRUE, message=TRUE, warning=FALSE}
-set.seed(040)
-# compare the distribution of 1000 random uniforms
-# and distribution of 1000 averages of 40 random uniforms
-means = NULL
-mu = 1/lambda
-se = sqrt(1/lambda^2)/samples
-means <- sapply(1:samples, function(x) (mean(sample(rexp(observ, lambda), replace = TRUE)) - mu)/se)
-hist(means)
-# plot(rnorm(100, 0, 1), type = "l", lwd = 2)
+If we consider the normalised version, $\frac {\bar X_n - \mu} {\sigma / n}$, of
+our sample averages, then the [Central Limit
+Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem) states that this
+distribution of these averages tends to that of a standard normal as the sample size
+increases.
+```{r samplenormals, echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(data = simdf, aes(normals)) +
+    geom_histogram(aes(y = ..density..), colour = "black", fill = "purple", alpha = 0.3) +
+    stat_function(fun = dnorm, colour = "red", size = 1, aes(x = c(-3, 3))) +
+    labs(x = "normalised sample averages") +
+    annotate("text", label = "reference: standard normal", x = 2.5, y = 0.35, colour = "red") +
+    ggtitle("Density Histogram of normalised sample averages")
 ```
+
+To help evaluate how close this is to our own simulation, we have overlayed the
+normalised sample averages with the standard normal distribution, $N(0,1)$.
