@@ -122,7 +122,7 @@ We can test this further using the [Quantile-Quantile
 Plots](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/qqnorm.html). As
 you can see the sample quantiles (black circles) closely match the standard 
 normal (red line):
-```{r qqnorm, echo=FALSE, message=FALSE, warning=FALSE}
+```{r qqnorm, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5, fig.height=5}
 qqnorm(simdf$normals)
 qqline(simdf$normals, col = 2, lwd = 2)
 ```
