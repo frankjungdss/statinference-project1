@@ -208,12 +208,20 @@ If we consider the normalised version,
 \(\frac {\bar X_n - \mu} {\sigma / n}\), of our sample averages, then
 the \href{https://en.wikipedia.org/wiki/Central_limit_theorem}{Central
 Limit Theorem} states that this distribution of averages tends to that
-of a standard normal as the sample size increases.
+of a standard normal as the sample size increases. Plotting the
+histogram we should see a normal like distribution:
 
 \begin{center}\includegraphics{figure/samplenormals-1} \end{center}
 
 To help evaluate how close this is to our own simulation, we have
 overlayed the normalised sample averages with the standard normal
 distribution, \(N(0,1)\).
+
+We can test this analyticallt using the
+\href{https://stat.ethz.ch/R-manual/R-devel/library/stats/html/qqnorm.html}{Quantile-Quantile
+Plots}. As you can see the sample quantiles (black circles) closely
+match the standard normal (red line).
+
+\begin{center}\includegraphics{figure/qqnorm-1} \end{center}
 
 \end{document}
