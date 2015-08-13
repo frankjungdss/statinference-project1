@@ -57,9 +57,9 @@ simnormals <- apply(simdata, 1, function (x) (mean(x[]) - mu)/se)
 simdf <- data.frame(means = simmeans, vars = simvars, normals = simnormals)
 ```
 We will perform ```r samples``` simulatations of ```r observ``` observations 
-from the exponential distribution with $\lambda$ of ```r lambda```. For each of
-the simulations we will calculate the samples means, variances. Finally, we will
-normalise the results for [later
+from the exponential distribution with $\lambda$ of ```r lambda```. For each of 
+the simulations we will calculate the samples means and variances. Finally, we
+will normalise the results for [later 
 comparision](#distribution-is-approximately-normal) to the standard normal.
 
 # Sample Mean versus Theoretical Mean
@@ -103,7 +103,8 @@ If we consider the normalised version, $\frac {\bar X_n - \mu} {\sigma / n}$, of
 our sample averages, then the [Central Limit 
 Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem) states that this 
 distribution of averages tends to that of a standard normal as the sample size 
-increases. Plotting the histogram we should see a normal like distribution:
+($n$) increases. Plotting a density histogram of these averages we should see a
+normal like distribution:
 ```{r samplenormals, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = simdf, aes(normals)) +
     geom_histogram(aes(y = ..density..), colour = "black", fill = "purple", alpha = 0.3) +
@@ -117,10 +118,10 @@ ggplot(data = simdf, aes(normals)) +
 To help evaluate how close this is to our own simulation, we have overlayed the
 normalised sample averages with the standard normal distribution, $N(0,1)$.
 
-We can test this analyticallt using the [Quantile-Quantile
+We can test this further using the [Quantile-Quantile
 Plots](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/qqnorm.html). As
-you can see the sample quantiles (black circles) closely match the standard
-normal (red line).
+you can see the sample quantiles (black circles) closely match the standard 
+normal (red line):
 ```{r qqnorm, echo=FALSE, message=FALSE, warning=FALSE}
 qqnorm(simdf$normals)
 qqline(simdf$normals, col = 2, lwd = 2)
