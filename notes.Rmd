@@ -90,3 +90,43 @@ packages used is:
 ```{r sessioninformation} 
 sessionInfo()
 ```
+
+
+### Exponential Distribtion
+
+```{r expdis}
+samples <- rexp(100, rate = 0.2)
+par(fig = c(0, 1, 0, 0.35))
+
+png(filename = "~/documents/wiki/media/frank/datascience/exponential-boxplot.png", height = 200, width = 480)
+boxplot(samples, horizontal = T, bty = "n", xlab = "exponential distribution")
+dev.off()
+
+par(fig=c(0, 1, 0.25, 1), new = T)
+s <- seq(0, max(samples), 0.1)
+d <- dexp(s, rate = 0.2)
+
+png(filename = "~/documents/wiki/media/frank/datascience/exponential.png")
+hist(samples, prob = T, main = "", col = adjustcolor("purple", alpha = 0.5), ylim = c(0, max(d)))
+lines(density(samples), lty = 2)
+curve(dexp(x, rate = 0.2), lwd = 2, add = T)
+rug(samples)
+dev.off()
+```
+
+### Poisson Distribution
+
+```{r rpois}
+require(ggplot2)
+
+k <- seq(0, 5)
+poisson <- data.frame(x = k, y = dpois(k, lambda = 0.5))
+
+png(filename = "~/documents/wiki/media/frank/datascience/poisson.png")
+ggplot(poisson, aes(x = x, y = y)) +
+    geom_bar(stat = "identity", colour = "purple", alpha = 0.5, fill = "purple") +
+    scale_x_discrete(breaks = k) +
+    labs(x = "k", y = "P(X=k)") +
+    ggtitle("Poisson Distribution, λ = 0.5")
+dev.off()
+```

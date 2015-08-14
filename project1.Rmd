@@ -61,7 +61,7 @@ For each of the simulations we will:
 
 * calculate the [samples means](#sample-mean-versus-theoretical-mean)
 * calculate the [samples variances](#sample-variance-versus-theoretical-variance)
-* normalise the results for [later comparision](#distribution-is-approximately-normal) to the standard normal
+* normalise the results for [later comparison](#distribution-is-approximately-normal) to the standard normal
 
 # Sample Mean versus Theoretical Mean
 
@@ -118,7 +118,7 @@ ggplot(data = simdf, aes(normals)) +
     ggtitle("Density Histogram of Normalised Sample Averages")
 ```
 
-To help evaluate how close this is to our simulated samples, we have overlayed
+To help evaluate how close this is to our simulated samples, we have overlaid
 the normalised sample averages with the standard normal distribution (in red), 
 $N(0,1)$.
 
