@@ -65,10 +65,10 @@ For each of the simulations we will:
 
 # Sample Mean versus Theoretical Mean
 
-Make ```r observ``` observations of the exponential distribution repeating this
-```r samples``` times. Then take the mean for each sample of observations. The mean
-of these samples should approach the theoretical mean, ($1/\lambda$), as shown
-in the plot below:
+The method used was to make ```r observ``` observations of the exponential
+distribution repeating this ```r samples``` times. Then take the mean for each
+sample of observations. The mean of these samples should approach the
+theoretical mean, ($1/\lambda$), as shown in the plot below:
 ```{r samplemean, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(simdf, aes(x=means)) +
     geom_histogram(colour = "black", fill = "purple", alpha = 0.3) +
@@ -83,9 +83,9 @@ ggplot(simdf, aes(x=means)) +
 
 # Sample Variance versus Theoretical Variance
 
-As before, make ```r observ``` observations of the exponential distribution
-repeating this ```r samples``` times. The take the variance for each sample of 
-observations . The mean of these sample variances should approach the 
+As before, make ```r observ``` observations of the exponential distribution 
+repeating this ```r samples``` times. Then take the variance for each sample of 
+observations. The mean of these sample variances should approach the 
 theoretical variance, ($1/\lambda^2$) as shown in the plot below:
 ```{r samplevar, echo=FALSE, message=FALSE, warning=FALSE}
 simvar <- mean(simdf$vars)
@@ -118,8 +118,8 @@ ggplot(data = simdf, aes(normals)) +
     ggtitle("Density Histogram of Normalised Sample Averages")
 ```
 
-To help evaluate how close this is to the own simulation, we have overlayed the 
-normalised sample averages with the standard normal distribution (in red),
+To help evaluate how close this is to our simulated samples, we have overlayed
+the normalised sample averages with the standard normal distribution (in red), 
 $N(0,1)$.
 
 We can further test this using the [Quantile-Quantile 
