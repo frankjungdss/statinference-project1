@@ -41,32 +41,34 @@ distribution](https://en.wikipedia.org/wiki/Exponential_distribution). It will:
 # Simulation
 
 ```{r simulation, echo=TRUE, message=FALSE, warning=FALSE}
-set.seed(040)
-lambda <- 0.2
-observ <- 40
-samples <- 1000
-# simulated data 1000 sample rows by 40 observation columns
+set.seed(040)       # seed for random number generation
+lambda <- 0.2       # exponential rate parameter
+observ <- 40        # number of observations from exponential distribution
+samples <- 1000     # number of samples of observations
+# simulated data 1000 sample rows by 40 observation columns ...
 simdata <- matrix(sapply(1:samples, function(x) rexp(observ, lambda)), samples, observ)
-# means and variances of each sample
-simmeans <- apply(simdata, 1, function (x) mean(x[]))
-simvars <- apply(simdata, 1, function (x) var(x[]))
-mu = 1/lambda
-se = sqrt(1/lambda^2)/sqrt(observ)
-simnormals <- apply(simdata, 1, function (x) (mean(x[]) - mu)/se)
-# put into data frame use with plots
+simmeans <- apply(simdata, 1, function (x) mean(x[]))   # mean of each sample
+simvars <- apply(simdata, 1, function (x) var(x[]))     # variance of each sample
+mu = 1/lambda                                           # theoretical mean
+se = sqrt(1/lambda^2)/sqrt(observ)                      # theoretical standard error
+simnormals <- apply(simdata, 1, function (x) (mean(x[]) - mu)/se) # normalised samples
+# put into data frame for use in plots ...
 simdf <- data.frame(means = simmeans, vars = simvars, normals = simnormals)
 ```
 We will perform ```r samples``` simulatations of ```r observ``` observations 
-from the exponential distribution with $\lambda$ of ```r lambda```. For each of 
-the simulations we will calculate the samples means and variances. Finally, we
-will normalise the results for [later 
-comparision](#distribution-is-approximately-normal) to the standard normal.
+from the exponential distribution with rate parameter ($\lambda$) of ```r lambda```.
+For each of the simulations we will:
+
+* calculate the [samples means](#sample-mean-versus-theoretical-mean)
+* calculate the [samples variances](#sample-variance-versus-theoretical-variance)
+* normalise the results for [later comparision](#distribution-is-approximately-normal) to the standard normal
 
 # Sample Mean versus Theoretical Mean
 
-Using ```r observ``` observations of the exponential distribution we will sample
-it ```r samples``` times, taking the mean for each sample. The mean of these 
-samples should approach the theoretical mean, ($1/\lambda$).
+Using ```r observ``` observations of the exponential distribution repeating this
+```r samples``` times, taking the mean for each sample of observations. The mean
+of these samples should approach the theoretical mean, ($1/\lambda$), as shown
+in the plot below:
 ```{r samplemean, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(simdf, aes(x=means)) +
     geom_histogram(colour = "black", fill = "purple", alpha = 0.3) +
@@ -81,9 +83,10 @@ ggplot(simdf, aes(x=means)) +
 
 # Sample Variance versus Theoretical Variance
 
-As before, take ```r observ``` observations from the exponential distribution, 
-but this time measure the sample variance. Sample these variances ```r samples```
-times and compare to the theoretical variance, ($1/\lambda^2$).
+As before, make ```r observ``` observations of the exponential distribution
+repeating this ```r samples``` times, taking the variance for each sample of 
+observations . The mean of these sample variances should approach the 
+theoretical variance, ($1/\lambda^2$) as shown in the plot below:
 ```{r samplevar, echo=FALSE, message=FALSE, warning=FALSE}
 simvar <- mean(simdf$vars)
 ggplot(simdf, aes(x=vars)) +
@@ -103,8 +106,8 @@ If we consider the normalised version, $\frac {\bar X_n - \mu} {\sigma / n}$, of
 our sample averages, then the [Central Limit 
 Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem) states that this 
 distribution of averages tends to that of a standard normal as the sample size 
-($n$) increases. Plotting a density histogram of these averages we should see a
-normal like distribution:
+($n$) increases. Plotting a kernel probability density histogram of these
+averages we should see a normal like distribution:
 ```{r samplenormals, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = simdf, aes(normals)) +
     geom_histogram(aes(y = ..density..), colour = "black", fill = "purple", alpha = 0.3) +
@@ -115,10 +118,11 @@ ggplot(data = simdf, aes(normals)) +
     ggtitle("Density Histogram of Normalised Sample Averages")
 ```
 
-To help evaluate how close this is to our own simulation, we have overlayed the
-normalised sample averages with the standard normal distribution, $N(0,1)$.
+To help evaluate how close this is to the own simulation, we have overlayed the 
+normalised sample averages with the standard normal distribution (in red),
+$N(0,1)$.
 
-We can test this further using the [Quantile-Quantile
+We can further test this using the [Quantile-Quantile 
 Plots](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/qqnorm.html). As
 you can see the sample quantiles (black circles) closely match the standard 
 normal (red line):
