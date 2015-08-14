@@ -130,4 +130,4 @@ normal (red line):
 qqnorm(simdf$normals)
 qqline(simdf$normals, col = 2, lwd = 2)
 ```
-$\square$
+$\hfill \square$
