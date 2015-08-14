@@ -65,8 +65,8 @@ For each of the simulations we will:
 
 # Sample Mean versus Theoretical Mean
 
-Using ```r observ``` observations of the exponential distribution repeating this
-```r samples``` times, taking the mean for each sample of observations. The mean
+Make ```r observ``` observations of the exponential distribution repeating this
+```r samples``` times. Then take the mean for each sample of observations. The mean
 of these samples should approach the theoretical mean, ($1/\lambda$), as shown
 in the plot below:
 ```{r samplemean, echo=FALSE, message=FALSE, warning=FALSE}
@@ -79,12 +79,12 @@ ggplot(simdf, aes(x=means)) +
 ```
 
 * The exponential distribution has a theoretical mean of $1/\lambda$ = ```r 1/lambda```.
-* The sample mean after ```r samples``` draws is ```r round(mean(simdf$means), 2)```.
+* The sample mean after ```r samples``` samples is ```r round(mean(simdf$means), 2)```.
 
 # Sample Variance versus Theoretical Variance
 
 As before, make ```r observ``` observations of the exponential distribution
-repeating this ```r samples``` times, taking the variance for each sample of 
+repeating this ```r samples``` times. The take the variance for each sample of 
 observations . The mean of these sample variances should approach the 
 theoretical variance, ($1/\lambda^2$) as shown in the plot below:
 ```{r samplevar, echo=FALSE, message=FALSE, warning=FALSE}
@@ -98,7 +98,7 @@ ggplot(simdf, aes(x=vars)) +
 ```
 
 * The exponential distribution has a theoretical variance of $1/\lambda^2$ = ```r 1/lambda^2```.
-* The sample variance after ```r samples``` draws is ```r round(mean(simdf$vars), 2)```.
+* The sample variance after ```r samples``` samples is ```r round(mean(simdf$vars), 2)```.
 
 # Distribution is Approximately Normal
 
@@ -106,8 +106,8 @@ If we consider the normalised version, $\frac {\bar X_n - \mu} {\sigma / n}$, of
 our sample averages, then the [Central Limit 
 Theorem](https://en.wikipedia.org/wiki/Central_limit_theorem) states that this 
 distribution of averages tends to that of a standard normal as the sample size 
-($n$) increases. Plotting a kernel probability density histogram of these
-averages we should see a normal like distribution:
+($n$) increases. Plotting a density histogram of these averages we should see a
+normal like distribution:
 ```{r samplenormals, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = simdf, aes(normals)) +
     geom_histogram(aes(y = ..density..), colour = "black", fill = "purple", alpha = 0.3) +
@@ -130,3 +130,4 @@ normal (red line):
 qqnorm(simdf$normals)
 qqline(simdf$normals, col = 2, lwd = 2)
 ```
+$\square$
