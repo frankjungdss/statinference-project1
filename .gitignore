@@ -1,11 +1,12 @@
-.Rproj.user
-.Rhistory
 .RData
+.Rhistory
+.Rproj.user
 cache
 figure
-project1.md
 project1.html
-project1.pdf
 project1.log
+project1.md
+project1.pdf
 project1.synctex.gz
+project1.tex
 statinference-031-project1.pdf
