@@ -5,7 +5,6 @@ output:
   pdf_document:
     toc: yes
     fig_crop: no
-    keep_tex: yes
     latex_engine: xelatex
     number_sections: yes
   html_document:
@@ -37,6 +36,8 @@ distribution](https://en.wikipedia.org/wiki/Exponential_distribution). It will:
 - show that the [sample mean converges to the theoretical mean](#sample-mean-versus-theoretical-mean) of the distribution
 - compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
 - show that the [distribution is approximately normal](#distribution-is-approximately-normal)
+
+All code for this project is available on [GitHub](https://github.com) from [here](https://github.com/frankhjung/statinference-project1).
 
 # Simulation
 
