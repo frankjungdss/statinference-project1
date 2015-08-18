@@ -47,7 +47,7 @@ lambda <- 0.2       # exponential rate parameter
 observ <- 40        # number of observations from exponential distribution
 samples <- 1000     # number of samples of observations
 # simulated data 1000 sample rows by 40 observation columns ...
-simdata <- matrix(sapply(1:samples, function(x) rexp(observ, lambda)), samples, observ)
+simdata <- matrix(replicate(samples, rexp(observ, lambda)), samples, observ)
 simmeans <- apply(simdata, 1, function (x) mean(x[]))   # mean of each sample
 simvars <- apply(simdata, 1, function (x) var(x[]))     # variance of each sample
 mu = 1/lambda                                           # theoretical mean
