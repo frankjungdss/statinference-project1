@@ -129,6 +129,7 @@ you can see the sample quantiles (black dots) closely match the standard
 normal (red line):
 ```{r qqnorm, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5, fig.height=5}
 qplot(sample = simdf$normals, stat = "qq") +
-    geom_abline(intercept = 0, size = 1, colour = "red")
+    geom_abline(intercept = 0, size = 1, colour = "red") +
+    ggtitle("Normal Q-Q Plot")
 ```
 $\hfill \square$
