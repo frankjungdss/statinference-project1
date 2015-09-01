@@ -7,8 +7,6 @@ output:
     fig_crop: no
     latex_engine: xelatex
     number_sections: yes
-  html_document:
-    css: custom.css
 graphics: yes
 classoption: legalpaper
 ---
