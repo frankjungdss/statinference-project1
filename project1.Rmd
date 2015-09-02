@@ -35,7 +35,7 @@ distribution](https://en.wikipedia.org/wiki/Exponential_distribution). It will:
 - compare the [sample variance to the theoretical variance](#sample-mean-versus-theoretical-mean) of the distribution
 - show that the [distribution is approximately normal](#distribution-is-approximately-normal)
 
-All code for this project is available on [GitHub](https://github.com) from [here](https://github.com/frankhjung/statinference-project1).
+All code for this project is available on [GitHub](https://github.com) from [here](https://github.com/frankjungdss/statinference-project1).
 
 # Simulation
 
